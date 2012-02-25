@@ -1,36 +1,34 @@
-Welcome to the These Days Facebook Friend Selector
+Welcome to the Facebook Friend Selector
 =========================================
 
 This is an interface component for websites and Facebook applications which allows your users to make a selection of one or more of their friends. The friends are returned as an array of Facebook IDs. It is similar to the `fb:multi-friend-selector` component by Facebook, except it can be used to select friends for anything, not just application requests.
+## Credit to original authors
 
-![This is what it looks like.](http://playground.thesedays.com/FBFriendSelector/screenshot-20110608.png)
+This is a forked project from [These Days Labs](http://playground.thesedays.com/FBFriendSelector/) friend selector. I (Mrman) have added a few features, reduced the complexity of placing the selector in a page (one div now).
 
 ## Viewing the example
 
-You can view the example at [These Days Labs](http://playground.thesedays.com/FBFriendSelector/), or you can check out this repository and run it yourself. You'll need to put the files on a web server - Facebook apps won't run off the local file system.
+You can view the example at [FBFriendSelector](http://fbfs.craig-saunders.co.uk/), just sign in to Facebook and approve the app (the app is empty so no security issues there).
 
-Just edit `example.js` and set your Facebook `appId`.
+If you clone the repository or download the tag then just replace the Facebook appID in index.html and everything should work.
 
 ## Using the plugin
 
 ### Include required HTML
 
-- Copy the `div` element with the ID `FBFriendSelector` (and all of its children) from `index.html`.
-- There is some text in the HTML. This is where you can localise the plugin to the desired language.
+- Place your div holder `<div id="FBFriendSelector"></div>`
 
 ### Include required CSS
 
-- Include the `fbfriendselector.css` stylesheet in your document.
-- Ensure `FBFriendSelector.png` is located in the same directory as `fbfriendselector.css`
-- We wrote the stylesheet with Sass and have included the SCSS source.
+- Include the `fbfriendselector.css` stylesheet (from css folder) in your document.
+- Make sure the images included by `fbfriendselector.css` can be located (currently look to images/ folder) 
 
 ### Include required JavaScript
 
-- Include jQuery in your document. We are considering making this plugin library independent, but currently jQuery is required.
+- Include jQuery in your document. 
 - Include the Facebook [JavaScript SDK](http://developers.facebook.com/docs/reference/javascript/). (Technically, this step is optional. We have provided a `setFriends` function if you have loaded the friends on the serverside and want to avoid the JavaScript SDK.)
-- Include `fbfriendselector.js`.
+- Include `fbfriendselector.js` (located in js folder).
 - Optional: We are using an HTML5 placeholder attribute on the search field. If you want the placeholder to work in older browsers, include a [placeholder polyfill](https://github.com/mathiasbynens/Placeholder-jQuery-Plugin).
-- Note: we haven't minified the script for you but you might like to [minify it](http://refresh-sf.com/yui/) and concatenate it into a single file with your other plugins.
 
 ### The fun stuff (using the plugin)
 
