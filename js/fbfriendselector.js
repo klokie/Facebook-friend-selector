@@ -2,8 +2,9 @@
 /*globals jQuery, FB */
 
 /*!
- * These Days Friend Selector
- * @authors: Bram Verdyck, Keegan Street
+ * Originated from These Days Friend Selector
+ * Adapted by Craig Saunders
+ * @authors: Bram Verdyck, Keegan Street, Craig Saunders
  */
 var FBFriendSelector = (function(module, $) {
 
