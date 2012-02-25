@@ -12,7 +12,7 @@ var TDFriendSelector = (function(module, $) {
 
 	// Private variables
 	settings, friends,
-	$friends, $container, $friendsContainer, $searchField, $selectedCount, $selectedCountMax, $pageNumber, $pageNumberTotal, $pagePrev, $pageNext, $buttonClose, $buttonOK,
+	$friends, $container, $friendsContainer, $searchField, $selectedCount, $selectedCountMax, $currentPageNumSpan, $totalPagesSpan, $previousPage, $nextPage, $buttonClose, $buttonOK,
 
 	// Private functions
 	$getFriendById, buildFriendSelector, sortFriends, log;
@@ -33,7 +33,7 @@ var TDFriendSelector = (function(module, $) {
 			debug                    : false,
 			textSelect               : 'select',
 			disabledClass            : 'TDFriendSelector_disabled',
-			friendSelectedClass      : 'TDFriendSelector_friendSelected',
+			friendSelectedClass      : 'friend_selected',
 			friendDisabledClass      : 'TDFriendSelector_friendDisabled',
 			friendFilteredClass      : 'TDFriendSelector_friendFiltered',
 			containerSelector        : '#TDFriendSelector',
@@ -54,16 +54,129 @@ var TDFriendSelector = (function(module, $) {
 
 		// Select DOM elements
 		$container        = $(settings.containerSelector);
-		$friendsContainer = $container.find(settings.friendsContainerSelector);
-		$searchField      = $container.find(settings.searchFieldSelector);
-		$selectedCount    = $container.find(settings.selectedCountSelector);
-		$selectedCountMax = $container.find(settings.selectedCountMaxSelector);
-		$pageNumber       = $container.find(settings.pageNumberSelector);
-		$pageNumberTotal  = $container.find(settings.pageNumberTotalSelector);
-		$pagePrev         = $container.find(settings.pagePrevSelector);
-		$pageNext         = $container.find(settings.pageNextSelector);
-		$buttonClose      = $container.find(settings.buttonCloseSelector);
-		$buttonOK         = $container.find(settings.buttonOKSelector);
+
+		
+		$dialogDiv = $( document.createElement('div') );
+        $formDiv = $( document.createElement('div') );
+        
+        // Header
+        
+        $dialogHeader = $('<div/>', {
+            "class": "TDFriendSelector_header",
+            html: "<p>Select your friends</p>"
+        });
+        
+        $buttonClose = $('<a/>', {
+            href: "#",
+            text: "x"
+        });
+        
+        // Content
+        
+        $dialogContent = $('<div/>', {
+            "class": "TDFriendSelector_content"
+        });
+		
+		$searchDiv = $('<div/>', {
+		  "class": "TDFriendSelector_searchContainer TDFriendSelector_clearfix"
+		});
+		
+		
+		// -- Selected stats & Search container
+		
+		$selectedStatsContainer = $( document.createElement('span') );
+		$selectedCount = $('<span/>', {
+            "class": "TDFriendSelector_selectedCount",
+            text: 0
+        });
+		
+        $selectedCountMax = $('<span/>', {
+            "class": "TDFriendSelector_selectedCountMax",
+            text: 0,
+        });
+        
+        $maxSelectionSpan = $('<span/>', {
+            text: " / "
+        });
+
+        $maxSelectionSpan.append($selectedCountMax);
+        
+        $selectedStatsContainer.append($selectedCount);
+        $selectedStatsContainer.append($maxSelectionSpan);
+        $selectedStatsContainer.append(' friends selected');
+        
+        $searchFieldWrapper = $('<div/>', {}
+        );
+        
+        $filterRemoveLabel = $('<label/>', {
+            class: "TDFriendSelector_removeSearchFilter"
+        });
+
+        $searchField = $('<input type="text" placeholder="Search friends" id="TDFriendSelector_searchField" />');
+        
+        $searchFieldWrapper.append($filterRemoveLabel);
+        $searchFieldWrapper.append($searchField);
+        
+        $searchDivTable = $('<table/>', {
+            "class": "TDFriendSelector_topTable"
+        });
+        
+        $searchDivTableTr = $('<tr/>');
+        $searchDivTableTrTd1 = $('<td/>');
+        $searchDivTableTrTd2 = $('<td/>');
+        
+        $searchDivTableTrTd1.append($selectedStatsContainer);
+        $searchDivTableTrTd2.append($searchFieldWrapper);
+        
+        $searchDivTable.append($searchDivTableTr);
+        $searchDivTableTr.append($searchDivTableTrTd1, $searchDivTableTrTd2);
+        
+        $searchDiv.append($searchDivTable);
+        
+        // -- Friends container
+        
+        $friendsContainerDiv = $('<div/>', {
+            "class": "TDFriendSelector_friendsContainer TDFriendSelector_clearfix"
+        });
+        
+        $friendsContainer = $('<ul />');
+        
+        $friendsContainerDiv.append($friendsContainer);
+        
+        // -- Append to content div 
+                
+        $dialogContent.append($searchDiv);
+        $dialogContent.append($friendsContainerDiv);
+        
+        // Footer
+        $dialogFooter = $('<div/>', {
+            "class": "TDFriendSelector_footer TDFriendSelector_clearfix"
+        }); 
+        
+        
+		
+/* 		$dialogFooter.append('<div class="TDFriendSelector_pageNumberContainer">'); */
+/* 		$dialogFooter.append('Page <span id="">1</span> / <span id="">1</span>'); */
+
+        $buttonOK = $('<a/>', {
+            href: "#",
+            text: "Done!",
+            id: "TDFriendSelector_buttonOK"
+        });
+        
+
+		$dialogFooter.append($buttonOK);
+        
+        $formDiv.append($dialogHeader);
+        $formDiv.append($dialogContent);
+        $formDiv.append($dialogFooter);
+
+        $dialogDiv.append($buttonClose);
+        $dialogDiv.append($formDiv);
+        
+		
+		$container.append($dialogDiv);
+		
 	};
 
 	/**
@@ -109,10 +222,10 @@ var TDFriendSelector = (function(module, $) {
 		var showFriendSelector, hideFriendSelector, getselectedFriendIds, setDisabledFriendIds, filterFriends, reset,
 
 		// Private variables
-		instanceSettings, selectedFriendIds = [], disabledFriendIds = [], numFilteredFriends = 0,
+		instanceSettings, selectedFriendIds = [], disabledFriendIds = [], numFilteredFriends = 0, loadCount = 1, batchImageSize = 33, cachedLoadCount = 0,
 
 		// Private functions
-		bindEvents, unbindEvents, updateFriendsContainer, updatePaginationButtons, selectFriend;
+		bindEvents, unbindEvents, updateFriendsContainer, selectFriend;
 
 		if (!settings) {
 			log('Cannot create a new instance of TDFriendSelector because the plugin not initialised.');
@@ -121,10 +234,10 @@ var TDFriendSelector = (function(module, $) {
 
 		// Default settings
 		instanceSettings = {
-			maxSelection             : 4,
+			maxSelection             : false,
 			friendsPerPage           : 10,
 			autoDeselection          : false, // Allow the user to keep on selecting once they reach maxSelection, and just deselect the first selected friend
-			filterCharacters         : 1, // Set to 3 if you would like the filter to only run after the user has typed 3 or more chars
+			filterCharacters         : 2, // Set to 3 if you would like the filter to only run after the user has typed 3 or more chars
 			callbackFriendSelected   : null,
 			callbackFriendUnselected : null,
 			callbackMaxSelection     : null,
@@ -133,6 +246,7 @@ var TDFriendSelector = (function(module, $) {
 
 		// Override defaults with arguments
 		$.extend(instanceSettings, options);
+
 
 		/////////////////////////////////////////
 		// PUBLIC FUNCTIONS FOR AN INSTANCE
@@ -145,19 +259,21 @@ var TDFriendSelector = (function(module, $) {
 			var i, len;
 			log('TDFriendSelector - newInstance - showFriendSelector');
 			if (!$friends) {
-				return buildFriendSelector(function() {
+				return buildFriendSelector(batchImageSize, function() {
 					showFriendSelector(callback);
 				});
 			} else {
 				bindEvents();
 				// Update classnames to represent the selections for this instance
-				$friends.removeClass(settings.friendSelectedClass + ' ' + settings.friendDisabledClass + ' ' + settings.friendFilteredClass);
+				$("a", $friends).removeClass(settings.friendSelectedClass + ' ' + settings.friendDisabledClass + ' ' + settings.friendFilteredClass);
+				$("a div input", $friends).removeAttr('checked');
 				for (i = 0, len = friends.length; i < len; i += 1) {
 					if ($.inArray(friends[i].id, selectedFriendIds) !== -1) {
-						$($friends[i]).addClass(settings.friendSelectedClass);
+						$("#friend" + friends[i].id).addClass(settings.friendSelectedClass);
+						$("#friend" + friends[i].id + " div input").attr('checked', true);
 					}
 					if ($.inArray(friends[i].id, disabledFriendIds) !== -1) {
-						$($friends[i]).addClass(settings.friendDisabledClass);
+						$("#friend" + friends[i].id).addClass(settings.friendDisabledClass);
 					}
 				}
 				// Reset filtering
@@ -165,9 +281,18 @@ var TDFriendSelector = (function(module, $) {
 				$searchField.val("");
 				// Update paging
 				$selectedCount.html(selectedFriendIds.length);
+				
+			     
+				
+				if (instanceSettings.maxSelection !== false) {
+				    $maxSelectionSpan.show();
+				} else {
+				    $maxSelectionSpan.hide();				
+				}
+				
 				$selectedCountMax.html(instanceSettings.maxSelection);
-				updateFriendsContainer(1);
-				updatePaginationButtons(1);
+				updateFriendsContainer();
+				
 				$container.fadeIn(500);
 				if (typeof callback === 'function') {
 					callback();
@@ -195,10 +320,18 @@ var TDFriendSelector = (function(module, $) {
 		 * Hides friends whose names do not match the filter
 		 */
 		filterFriends = function(filter) {
+		
 			var i, len;
 			numFilteredFriends = 0;
 			$friends.removeClass(settings.friendFilteredClass);
+					
 			if (filter.length >= instanceSettings.filterCharacters) {
+			 
+                if (loadCount != 1) {
+                    cachedLoadCount = loadCount;
+                    loadCount = 0;
+                }
+			
 				filter = filter.toUpperCase();
 				for (i = 0, len = friends.length; i < len; i += 1) {
 					if (friends[i].upperCaseName.indexOf(filter) === -1) {
@@ -207,8 +340,19 @@ var TDFriendSelector = (function(module, $) {
 					}
 				}
 			}
-			updateFriendsContainer(1);
-			updatePaginationButtons(1);
+			
+			if (filter == '' & cachedLoadCount != 0) {
+                $friendsContainerDiv.animate({
+                    scrollTop:0
+                }, 800);
+                loadCount = 1;
+            }
+            
+			updateFriendsContainer();
+/* 			updatePaginationButtons(1); */
+			loadFriendImages(loadCount, batchImageSize);
+			
+		
 		};
 
 		/**
@@ -224,7 +368,7 @@ var TDFriendSelector = (function(module, $) {
 			disabledFriendIds = [];
 			numFilteredFriends = 0;
 			$searchField.val("");
-			updatePaginationButtons(1);
+/* 			updatePaginationButtons(1); */
 		};
 
 		/////////////////////////////////////////
@@ -233,6 +377,7 @@ var TDFriendSelector = (function(module, $) {
 
 		// Add event listeners
 		bindEvents = function() {
+		
 			$buttonClose.bind('click', function(e) {
 				e.preventDefault();
 				hideFriendSelector();
@@ -256,22 +401,6 @@ var TDFriendSelector = (function(module, $) {
 				}
 			});
 
-			$pagePrev.bind('click', function(e) {
-				var pageNumber = parseInt($pageNumber.text(), 10) - 1;
-				e.preventDefault();
-				if (pageNumber < 1) { return; }
-				updateFriendsContainer(pageNumber);
-				updatePaginationButtons(pageNumber);
-			});
-
-			$pageNext.bind('click', function(e) {
-				var pageNumber = parseInt($pageNumber.text(), 10) + 1;
-				e.preventDefault();
-				if ($(this).hasClass(settings.disabledClass)) { return; }
-				updateFriendsContainer(pageNumber);
-				updatePaginationButtons(pageNumber);
-			});
-
 			$(window).bind('keydown', function(e) {
 				if (e.which === 13) {
 					// The enter key has the same effect as the OK button
@@ -286,6 +415,25 @@ var TDFriendSelector = (function(module, $) {
 					hideFriendSelector();
 				}
 			});
+			
+			$filterRemoveLabel.bind('click', function(e) {
+                if ($searchField.val() != '') { 
+                    $searchField.val('');
+                    filterFriends('');
+                }
+			});
+			
+			$friendsContainerDiv.scroll(function() {             
+                if ($(this).scrollTop() > 320 * loadCount) {
+                    start = loadCount * batchImageSize;
+                    loadCount++;
+                    end = loadCount * batchImageSize;
+                                        
+                    if (start < friends.length) {
+                        loadFriendImages(start, end);
+                    }
+                }
+			});
 		};
 
 		// Remove event listeners
@@ -293,46 +441,29 @@ var TDFriendSelector = (function(module, $) {
 			$buttonClose.unbind('click');
 			$buttonOK.unbind('click');
 			$friendsContainer.children().unbind('click');
+			$filterRemoveLabel.unbind('click');
 			$searchField.unbind('keyup');
 			$searchField.unbind('keydown');
-			$pagePrev.unbind('click');
-			$pageNext.unbind('click');
 			$(window).unbind('keydown');
 		};
 
 		// Set the contents of the friends container
-		updateFriendsContainer = function(pageNumber) {
-			var firstIndex, lastIndex;
-			firstIndex = (pageNumber - 1) * instanceSettings.friendsPerPage;
-			lastIndex = pageNumber * instanceSettings.friendsPerPage;
-			$friendsContainer.html($friends.not("." + settings.friendFilteredClass).slice(firstIndex, lastIndex));
-			$friendsContainer.children().bind('click', function(e) {
-				e.preventDefault();
+		updateFriendsContainer = function() {
+			$friendsContainer.html($friends.not("." + settings.friendFilteredClass));
+			$("li a", $friendsContainer).bind('click', function(e) {
+				e.stopPropagation();
 				selectFriend($(this));
 			});
-		};
-
-		updatePaginationButtons = function(pageNumber) {
-			var numPages = Math.ceil((friends.length - numFilteredFriends) / instanceSettings.friendsPerPage);
-			$pageNumber.html(pageNumber);
-			$pageNumberTotal.html(numPages);
-			if (pageNumber === 1 || numPages === 1) {
-				$pagePrev.addClass(settings.disabledClass);
-			} else {
-				$pagePrev.removeClass(settings.disabledClass);
-			}
-			if (pageNumber === numPages || numPages === 1) {
-				$pageNext.addClass(settings.disabledClass);
-			} else {
-				$pageNext.removeClass(settings.disabledClass);
-			}
+			
 		};
 
 		selectFriend = function($friend) {
+		           
 			var friendId, i, len, removedId;
-			friendId = $friend.attr('data-id');
-
-			// If the friend is disabled, ignore this
+			$checkbox = $("div input", $friend) 
+			friendId = $checkbox.val();//.attr('data-id');        
+               
+    		// If the friend is disabled, ignore this
 			if ($friend.hasClass(settings.friendDisabledClass)) {
 				return;
 			}
@@ -340,15 +471,20 @@ var TDFriendSelector = (function(module, $) {
 			if (!$friend.hasClass(settings.friendSelectedClass)) {
 				// If autoDeselection is enabled and they have already selected the max number of friends, deselect the first friend
 				if (instanceSettings.autoDeselection && selectedFriendIds.length === instanceSettings.maxSelection) {
+				    				    
 					removedId = selectedFriendIds.splice(0, 1);
-					$getFriendById(removedId).removeClass(settings.friendSelectedClass);
+					$deselectedFriend = $getFriendById(removedId);
+					$deselectedFriend.removeClass(settings.friendSelectedClass);
+					$("div input", $deselectedFriend).removeAttr('checked');
 					$selectedCount.html(selectedFriendIds.length);
 				}
-				if (selectedFriendIds.length < instanceSettings.maxSelection) {
+				
+				if (!instanceSettings.maxSelection || selectedFriendIds.length < instanceSettings.maxSelection) {
 					// Add friend to selectedFriendIds
 					if ($.inArray(friendId, selectedFriendIds) === -1) {
 						selectedFriendIds.push(friendId);
 						$friend.addClass(settings.friendSelectedClass);
+                        $checkbox.attr('checked', true);
 						$selectedCount.html(selectedFriendIds.length);
 						log('TDFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
 						if (typeof instanceSettings.callbackFriendSelected === "function") { instanceSettings.callbackFriendSelected(friendId); }
@@ -363,6 +499,7 @@ var TDFriendSelector = (function(module, $) {
 					if (selectedFriendIds[i] === friendId) {
 						selectedFriendIds.splice(i, 1);
 						$friend.removeClass(settings.friendSelectedClass);
+						$checkbox.removeAttr('checked');
 						$selectedCount.html(selectedFriendIds.length);
 						if (typeof instanceSettings.callbackFriendUnselected === "function") { instanceSettings.callbackFriendUnselected(friendId); }
 						return false;
@@ -370,9 +507,12 @@ var TDFriendSelector = (function(module, $) {
 				}
 			}
 
-			if (selectedFriendIds.length === instanceSettings.maxSelection) {
+			if (instanceSettings.maxSelection && selectedFriendIds.length === instanceSettings.maxSelection) {
 				if (typeof instanceSettings.callbackMaxSelection === "function") { instanceSettings.callbackMaxSelection(); }
 			}
+			
+			
+
 		};
 
 		// Return an object with access to the public members
@@ -393,9 +533,12 @@ var TDFriendSelector = (function(module, $) {
 	$getFriendById = function(id) {
 		var i, len;
 		id = id.toString();
+		
+/* 		console.log(friends); */
+		
 		for (i = 0, len = friends.length; i < len; i += 1) {
 			if (friends[i].id === id) {
-				return $($friends[i]);
+				return $("#friend" + id);
 			}
 		}
 		return $("");
@@ -404,7 +547,7 @@ var TDFriendSelector = (function(module, $) {
 	/**
 	 * Load the Facebook friends and build the markup
 	 */
-	buildFriendSelector = function(callback) {
+	buildFriendSelector = function(batchImageSize, callback) {
 		var buildMarkup, buildFriendMarkup;
 		log("buildFriendSelector");
 
@@ -415,6 +558,9 @@ var TDFriendSelector = (function(module, $) {
 
 		// Check that the user is logged in to Facebook
 		FB.getLoginStatus(function(response) {
+            
+            log("Login status" + response.status);
+		
 			if (response.status === 'connected') {
 				// Load Facebook friends
 				FB.api('/me/friends?fields=id,name', function(response) {
@@ -437,15 +583,18 @@ var TDFriendSelector = (function(module, $) {
 
 		// Build the markup of the friend selector
 		buildMarkup = function() {
-			var i, len, html = '';
+			var i, len, html = '', loadImage = true;
 			for (i = 0, len = friends.length; i < len; i += 1) {
-				html += buildFriendMarkup(friends[i]);
+                
+                (i > batchImageSize) ? loadImage = false : loadImage = true;
+				html += buildFriendMarkup(friends[i], loadImage);
 			}
 			$friends = $(html);
 		};
 
 		// Return the markup for a single friend
-		buildFriendMarkup = function(friend) {
+		buildFriendMarkup = function(friend, loadImage) {
+/*
 			return '<a href="#" class="TDFriendSelector_friend TDFriendSelector_clearfix" data-id="' + friend.id + '">' +
 					'<img src="//graph.facebook.com/' + friend.id + '/picture?type=square" width="50" height="50" alt="' + friend.name + '" class="TDFriendSelector_friendAvatar" />' +
 					'<div class="TDFriendSelector_friendName">' + 
@@ -453,8 +602,36 @@ var TDFriendSelector = (function(module, $) {
 						'<span class="TDFriendSelector_friendSelect">' + settings.textSelect + '</span>' +
 					'</div>' +
 				'</a>';
+				
+*/
+            
+            if (loadImage == true) {
+                imgSrc = '//graph.facebook.com/' + friend.id + '/picture?type=square';
+                classText = ' class="img_loaded"';
+            } else {
+                imgSrc = '/images/no-face.png';
+                classText = '';
+            }
+            
+            return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="TDFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
+            
 		};
 	};
+	
+	loadFriendImages = function(start, end) {
+	
+        $(".TDFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
+        
+            if (!$(this).hasClass("img_loaded")) {
+            
+                $user_div = $("a div", this);
+                $("img", $user_div).attr("src", '//graph.facebook.com/' + $("input", $user_div).val() + '/picture?type=square');
+                $(this).addClass("img_loaded");            
+            }
+            
+        });
+	
+	}
 
 	sortFriends = function(friend1, friend2) {
 		if (friend1.upperCaseName === friend2.upperCaseName) { return 0; }

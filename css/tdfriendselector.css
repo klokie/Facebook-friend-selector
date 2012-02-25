@@ -1,4 +1,301 @@
+#TDFriendSelector {
+    display:none;
+    width:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:1000;
+    color:#333;
+    font-family:"lucida grande", tahoma, verdana, arial, sans-serif;
+    font-size:11px;
+    padding:10px 0 0;
+}
+
+#TDFriendSelector a,#TDFriendSelector a:active,#TDFriendSelector a:hover,#TDFriendSelector a:visited {
+    text-decoration:none;
+    color:#3B5998;
+}
+
+#TDFriendSelector p,#TDFriendSelector ul,#TDFriendSelector li {
+    margin:0;
+    padding:0;
+}
+
+#TDFriendSelector li {
+    list-style-type:none;
+}
+
+#TDFriendSelector .TDFriendSelector_clearfix:before,#TDFriendSelector .TDFriendSelector_clearfix:after {
+    content:"";
+    display:table;
+}
+
+#TDFriendSelector .TDFriendSelector_clearfix:after {
+    clear:both;
+}
+
+#TDFriendSelector .TDFriendSelector_clearfix {
+    zoom:1px;
+}
+
+#TDFriendSelector > div {
+    width:555px;
+    position:relative;
+    background:rgba(82, 82, 82, 0.7);
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    margin:0 auto;
+    padding:10px;
+}
+
+#TDFriendSelector > div > a {
+    position:absolute;
+    right:18px;
+    top:14px;
+    font-size:16px;
+    display: block;
+    padding: 0px 4px;
+    line-height: 22px;
+    font-weight: bold;
+}
+
+#TDFriendSelector > div > a:hover {
+    color: #fff;
+
+}
+
 /*
- * TD Friend Selector
- * @author Bram Verdyck, Keegan Street
- */#TDFriendSelector{display:none;width:100%;padding:10px 0 0;position:absolute;left:0;top:0;z-index:1000;color:#333;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px}#TDFriendSelector a,#TDFriendSelector a:active,#TDFriendSelector a:hover,#TDFriendSelector a:visited{text-decoration:none;color:#3B5998}#TDFriendSelector p,#TDFriendSelector ul,#TDFriendSelector li{margin:0;padding:0}#TDFriendSelector li{list-style-type:none}#TDFriendSelector .TDFriendSelector_clearfix:before,#TDFriendSelector .TDFriendSelector_clearfix:after{content:"";display:table}#TDFriendSelector .TDFriendSelector_clearfix:after{clear:both}#TDFriendSelector .TDFriendSelector_clearfix{zoom:1}#TDFriendSelector .TDFriendSelector_dialog{width:392px;padding:10px;margin:0 auto;position:relative;background:rgba(82, 82, 82, 0.7);-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}#TDFriendSelector .TDFriendSelector_dialog #TDFriendSelector_buttonClose{position:absolute;right:18px;top:15px;font-size:16px}#TDFriendSelector .TDFriendSelector_dialog #TDFriendSelector_buttonClose,#TDFriendSelector .TDFriendSelector_dialog #TDFriendSelector_buttonClose:active,#TDFriendSelector .TDFriendSelector_dialog #TDFriendSelector_buttonClose:hover,#TDFriendSelector .TDFriendSelector_dialog #TDFriendSelector_buttonClose:visited{color:#FFF}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_form{border:1px solid #3B5998}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_header{padding:7px 10px;background:#6D84B4;color:#FFF;font-size:14px;font-weight:bold}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_content{background:#FFF;padding:10px}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_searchContainer{margin-top:10px;padding:10px;background:#f1f1f1;border:solid #cacaca;border-width:1px 0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_searchContainer .TDFriendSelector_selectedCountContainer{font-weight:bold;float:left;padding:3px 0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_searchContainer #TDFriendSelector_searchField{float:right}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer{width:370px;margin:10px 0 0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend{display:block;padding:5px 10px;margin-bottom:2px;border-bottom:1px solid #cacaca;cursor:pointer}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendAvatar{float:left;height:50px;width:50px}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendName{float:left;font-size:14px;font-weight:bold;padding:17px 0 17px 20px;position:relative;width:280px}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendSelect{display:none;position:absolute;right:0;top:19px;text-align:right;color:#666;font-size:10px;font-weight:normal}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend:hover .TDFriendSelector_friendSelect{display:block}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendSelected{background:#f0f0f0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendDisabled{cursor:default;opacity:.5;filter:alpha(opacity=50);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendDisabled:hover .TDFriendSelector_friendSelect{display:none}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendFiltered{display:none}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer{padding:8px 10px;background:#F2F2F2;border-top:1px solid #CCC}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pagePrev,#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pageNext{float:left;height:21px;width:22px;overflow:hidden;text-indent:-999em;background:transparent url(images/tdfriendselector.png) no-repeat 0 0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pagePrev{background-position:-44px 0;margin-right:2px}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pageNext{margin-right:6px}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pagePrev.TDFriendSelector_disabled{background-position:-66px 0;cursor:default}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_pageNext.TDFriendSelector_disabled{background-position:-22px 0;cursor:default}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer .TDFriendSelector_pageNumberContainer{float:left;padding:4px 0 0}#TDFriendSelector .TDFriendSelector_dialog .TDFriendSelector_footer #TDFriendSelector_buttonOK{float:right;background:#3B5998;color:#FFF;padding:4px 20px 5px 20px;border:1px solid;border-color:#D9DFEA #0E1F5B #0E1F5B #D9DFEA}
+#TDFriendSelector > div > a,#TDFriendSelector > div #TDFriendSelector_buttonClose:active,#TDFriendSelector > div #TDFriendSelector_buttonClose:hover,#TDFriendSelector > div #TDFriendSelector_buttonClose:visited {
+color:#FFF;
+}
+*/
+
+#TDFriendSelector > div > div {
+    border:1px solid #3B5998;
+    background-color: #FFF;
+}
+
+#TDFriendSelector > div .TDFriendSelector_header {
+    background:#6D84B4;
+    color:#FFF;
+    font-size:14px;
+    font-weight:bold;
+    padding:7px 10px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_content {
+    background: #FFF;
+}
+
+.TDFriendSelector_searchContainer {
+    background:#f1f1f1;
+    border: 0px solid #cacaca;
+    border-bottom-width: 1px;
+    padding:10px;
+    line-height: 28px;
+    
+}
+
+#TDFriendSelector > div .TDFriendSelector_topTable {
+    width: 100%;
+}
+
+#TDFriendSelector > div .TDFriendSelector_topTable tbody tr td {
+    width: 50%;
+}
+
+#TDFriendSelector > div .TDFriendSelector_topTable tbody tr td > div {
+    position: relative;
+    height: 22px;
+}
+/*
+
+#TDFriendSelector > div .TDFriendSelector_searchContainer > span {
+    font-weight:bold;
+    float:left;
+    padding:3px 0;
+}
+*/
+
+#TDFriendSelector #TDFriendSelector_searchField {
+    float: right;
+    outline-width: 0px;
+    border: 1px solid #CCC;
+    padding: 4px;
+    width: 175px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_removeSearchFilter {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    color: #737373;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 15px;
+    font-weight: bold;
+    background:transparent url('/images/removefiltercross.png') no-repeat 0 0;
+}
+
+#TDFriendSelector > div .TDFriendSelector_removeSearchFilter:hover {
+    cursor: pointer;
+    background-position-y: -16px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer {
+    height: 300px;
+    margin:0;
+    overflow-y: scroll;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li {
+    float: left;
+    width: 172px;
+    margin: 8px 0 0 5px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a {
+    display: block;
+    height: 30px;
+    border: 1px solid transparent;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a:hover {
+    display: block;
+    height: 30px;
+    background-color: #E7E7E7;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a.friend_selected {
+    background:#f0f0f0;
+    border: 1px solid #6D84B4;
+}
+
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a div img {
+    float: left;
+    margin-right: 5px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a div div {
+    display: table-cell;
+    vertical-align: middle;
+    height: 30px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer ul li a div input {
+    float: left;
+    margin-right: 5px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend {
+    display:block;
+    margin-bottom:2px;
+    border-bottom:1px solid #cacaca;
+    cursor:pointer;
+    padding:5px 10px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendAvatar {
+    float:left;
+    height:30px;
+    width:30px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendName {
+    float:left;
+    font-size:14px;
+    font-weight:bold;
+    position:relative;
+    width:280px;
+    padding:17px 0 17px 20px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend .TDFriendSelector_friendSelect {
+display:none;
+position:absolute;
+right:0;
+top:19px;
+text-align:right;
+color:#666;
+font-size:10px;
+font-weight:normal;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend:hover .TDFriendSelector_friendSelect {
+    display:block;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendSelected {
+    background:#f0f0f0;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendDisabled {
+cursor:default;
+opacity:.5;
+filter:alpha(opacity=50);
+-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer {
+    background:#F2F2F2;
+    border-top:1px solid #CACACA;
+    padding:8px 10px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pagePrev, #TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pageNext {
+    float:left;
+    height:21px;
+    width:22px;
+    overflow:hidden;
+    text-indent:-999em;
+    background:transparent url(/images/tdfriendselector.png) no-repeat 0 0;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pagePrev {
+    background-position:-44px 0;
+    margin-right:2px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pageNext {
+    margin-right:6px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pagePrev.TDFriendSelector_disabled {
+    background-position:-66px 0;
+    cursor:default;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_pageNext.TDFriendSelector_disabled {
+    background-position:-22px 0;
+    cursor:default;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer > div {
+    float:left;
+    padding:4px 0 0;
+}
+
+#TDFriendSelector > div .TDFriendSelector_footer #TDFriendSelector_buttonOK {
+    float:right;
+    background:#3B5998;
+    color:#FFF;
+    border:1px solid;
+    border-color:#D9DFEA #0E1F5B #0E1F5B #D9DFEA;
+    padding:4px 20px 5px;
+}
+
+#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendDisabled:hover .TDFriendSelector_friendSelect,#TDFriendSelector > div .TDFriendSelector_friendsContainer .TDFriendSelector_friend.TDFriendSelector_friendFiltered {
+    display:none;
+}
