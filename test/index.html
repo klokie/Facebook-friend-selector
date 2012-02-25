@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<title>QUnit Tests</title>
 	<link rel="stylesheet" href="qunit/qunit.css" media="screen">
-	<link rel="stylesheet" href="../tdfriendselector.css" media="screen">
+	<link rel="stylesheet" href="../FBFriendSelector.css" media="screen">
 </head>
 
 <body class="flora">
@@ -20,28 +20,28 @@
 	<div id="qunit-fixture">test markup</div>
 
 	<!-- Markup for These Days Friend Selector -->
-	<div id="TDFriendSelector">
-		<div class="TDFriendSelector_dialog">
-			<a href="#" id="TDFriendSelector_buttonClose">x</a>
-			<div class="TDFriendSelector_form">
-				<div class="TDFriendSelector_header">
+	<div id="FBFriendSelector">
+		<div class="FBFriendSelector_dialog">
+			<a href="#" id="FBFriendSelector_buttonClose">x</a>
+			<div class="FBFriendSelector_form">
+				<div class="FBFriendSelector_header">
 					<p>Select your friends</p>
 				</div>
-				<div class="TDFriendSelector_content">
+				<div class="FBFriendSelector_content">
 					<p>Then you can invite them to join you in the app.</p>
-					<div class="TDFriendSelector_searchContainer TDFriendSelector_clearfix">
-						<div class="TDFriendSelector_selectedCountContainer"><span class="TDFriendSelector_selectedCount">0</span> / <span class="TDFriendSelector_selectedCountMax">0</span> friends selected</div>
-						<input type="text" placeholder="Search friends" id="TDFriendSelector_searchField" />
+					<div class="FBFriendSelector_searchContainer FBFriendSelector_clearfix">
+						<div class="FBFriendSelector_selectedCountContainer"><span class="FBFriendSelector_selectedCount">0</span> / <span class="FBFriendSelector_selectedCountMax">0</span> friends selected</div>
+						<input type="text" placeholder="Search friends" id="FBFriendSelector_searchField" />
 					</div>
-					<div class="TDFriendSelector_friendsContainer"></div>
+					<div class="FBFriendSelector_friendsContainer"></div>
 				</div>
-				<div class="TDFriendSelector_footer TDFriendSelector_clearfix">
-					<a href="#" id="TDFriendSelector_pagePrev" class="TDFriendSelector_disabled">Previous</a>
-					<a href="#" id="TDFriendSelector_pageNext">Next</a>
-					<div class="TDFriendSelector_pageNumberContainer">
-						Page <span id="TDFriendSelector_pageNumber">1</span> / <span id="TDFriendSelector_pageNumberTotal">1</span>
+				<div class="FBFriendSelector_footer FBFriendSelector_clearfix">
+					<a href="#" id="FBFriendSelector_pagePrev" class="FBFriendSelector_disabled">Previous</a>
+					<a href="#" id="FBFriendSelector_pageNext">Next</a>
+					<div class="FBFriendSelector_pageNumberContainer">
+						Page <span id="FBFriendSelector_pageNumber">1</span> / <span id="FBFriendSelector_pageNumberTotal">1</span>
 					</div>
-					<a href="#" id="TDFriendSelector_buttonOK">OK</a>
+					<a href="#" id="FBFriendSelector_buttonOK">OK</a>
 				</div>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 	<script>
 		FB.init({appId: '172102396182433', status: true, cookie: false, xfbml: false, oauth: true});
 	</script>
-	<script src="../tdfriendselector.js"></script>
+	<script src="../FBFriendSelector.js"></script>
 
 	<!-- test runner files -->
 	<script src="qunit/qunit.js"></script>

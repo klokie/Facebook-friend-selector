@@ -1,4 +1,4 @@
-/*global FB, TDFriendSelector, test, asyncTest, expect, module, QUnit, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual, raises, start, stop */
+/*global FB, FBFriendSelector, test, asyncTest, expect, module, QUnit, ok, equal, notEqual, deepEqual, notDeepEqual, strictEqual, notStrictEqual, raises, start, stop */
 // Documentation on writing tests here: http://docs.jquery.com/QUnit
 // Example tests: https://github.com/jquery/qunit/blob/master/test/same.js
 
@@ -10,7 +10,7 @@ test('Environment is good', function() {
 	expect(3);
 	ok(!!window.jQuery, 'jQuery global is present');
 	ok(!!window.FB, 'Facebook global is present');
-	ok(!!window.TDFriendSelector, 'TDFriendSelector global is present');
+	ok(!!window.FBFriendSelector, 'FBFriendSelector global is present');
 });
 
 module('Facebook module');
@@ -74,14 +74,14 @@ test('Load friends from Facebook', function() {
 
 module('Friend Selector module');
 
-test('TDFriendSelector should not create new instances if it is not initialised', function() {
-	selector1 = TDFriendSelector.newInstance();
+test('FBFriendSelector should not create new instances if it is not initialised', function() {
+	selector1 = FBFriendSelector.newInstance();
 	equal(selector1, false, 'should return false');
 });
 
-test('Can TDFriendSelector create a new instance', function() {
-	TDFriendSelector.init({debug: true});
-	selector1 = TDFriendSelector.newInstance();
+test('Can FBFriendSelector create a new instance', function() {
+	FBFriendSelector.init({debug: true});
+	selector1 = FBFriendSelector.newInstance();
 	ok(selector1, 'should return an object');
 });
 
@@ -90,7 +90,7 @@ test('show friend selector', function() {
 	stop();
 	selector1.showFriendSelector(function() {
 		ok(true, 'selector should be built and shown');
-		ok($('.TDFriendSelector_friend').length > 0, 'expected some elements to be added to the page with the classname TDFriendSelector_friend');
+		ok($('.FBFriendSelector_friend').length > 0, 'expected some elements to be added to the page with the classname FBFriendSelector_friend');
 		equal(selector1.getselectedFriendIds(), 0, 'selected friends should be empty');
 		start();
 	});
@@ -101,7 +101,7 @@ test('test filtering', function() {
 	stop();
 	selector1.filterFriends(friends[0].name);
 	setTimeout(function() {
-		ok($('.TDFriendSelector_friend').length > 0, 'expected at least one element to still be shown with the classname TDFriendSelector_friend');
+		ok($('.FBFriendSelector_friend').length > 0, 'expected at least one element to still be shown with the classname FBFriendSelector_friend');
 		start();
 	}, 500);
 });
@@ -125,22 +125,22 @@ test('test selection and deselection', function() {
 			strictEqual(friendId, ids[0], 'expected ids[0] to be the same as the id returned by callbackFriendSelected');
 			phase = 2;
 			selector2.showFriendSelector(function() {
-				$('.TDFriendSelector_friend').eq(0).click();
-				$('#TDFriendSelector_buttonOK').click();
+				$('.FBFriendSelector_friend').eq(0).click();
+				$('#FBFriendSelector_buttonOK').click();
 			});
 		} else {
 			ok((typeof ids === 'object' && ids.length === 0), 'expected friend ids to be an array of length 0');
 			start();
 		}
 	};
-	selector2 = TDFriendSelector.newInstance({
+	selector2 = FBFriendSelector.newInstance({
 		callbackFriendSelected:   callbackFriendSelected,
 		callbackFriendUnselected: callbackFriendUnselected,
 		callbackSubmit:           callbackSubmit
 	});
 	selector2.showFriendSelector(function() {
-		$('.TDFriendSelector_friend').eq(0).click();
-		$('#TDFriendSelector_buttonOK').click();
+		$('.FBFriendSelector_friend').eq(0).click();
+		$('#FBFriendSelector_buttonOK').click();
 	});
 });
 

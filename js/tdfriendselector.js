@@ -5,7 +5,7 @@
  * These Days Friend Selector
  * @authors: Bram Verdyck, Keegan Street
  */
-var TDFriendSelector = (function(module, $) {
+var FBFriendSelector = (function(module, $) {
 
 	// Public functions
 	var init, setFriends, getFriends, getFriendById, newInstance,
@@ -32,21 +32,21 @@ var TDFriendSelector = (function(module, $) {
 			speed                    : 500,
 			debug                    : false,
 			textSelect               : 'select',
-			disabledClass            : 'TDFriendSelector_disabled',
+			disabledClass            : 'FBFriendSelector_disabled',
 			friendSelectedClass      : 'friend_selected',
-			friendDisabledClass      : 'TDFriendSelector_friendDisabled',
-			friendFilteredClass      : 'TDFriendSelector_friendFiltered',
-			containerSelector        : '#TDFriendSelector',
-			friendsContainerSelector : '.TDFriendSelector_friendsContainer',
-			searchFieldSelector      : '#TDFriendSelector_searchField',
-			selectedCountSelector    : '.TDFriendSelector_selectedCount',
-			selectedCountMaxSelector : '.TDFriendSelector_selectedCountMax',
-			pageNumberSelector       : '#TDFriendSelector_pageNumber',
-			pageNumberTotalSelector  : '#TDFriendSelector_pageNumberTotal',
-			pagePrevSelector         : '#TDFriendSelector_pagePrev',
-			pageNextSelector         : '#TDFriendSelector_pageNext',
-			buttonCloseSelector      : '#TDFriendSelector_buttonClose',
-			buttonOKSelector         : '#TDFriendSelector_buttonOK'
+			friendDisabledClass      : 'FBFriendSelector_friendDisabled',
+			friendFilteredClass      : 'FBFriendSelector_friendFiltered',
+			containerSelector        : '#FBFriendSelector',
+			friendsContainerSelector : '.FBFriendSelector_friendsContainer',
+			searchFieldSelector      : '#FBFriendSelector_searchField',
+			selectedCountSelector    : '.FBFriendSelector_selectedCount',
+			selectedCountMaxSelector : '.FBFriendSelector_selectedCountMax',
+			pageNumberSelector       : '#FBFriendSelector_pageNumber',
+			pageNumberTotalSelector  : '#FBFriendSelector_pageNumberTotal',
+			pagePrevSelector         : '#FBFriendSelector_pagePrev',
+			pageNextSelector         : '#FBFriendSelector_pageNext',
+			buttonCloseSelector      : '#FBFriendSelector_buttonClose',
+			buttonOKSelector         : '#FBFriendSelector_buttonOK'
 		};
 
 		// Override defaults with arguments
@@ -62,7 +62,7 @@ var TDFriendSelector = (function(module, $) {
         // Header
         
         $dialogHeader = $('<div/>', {
-            "class": "TDFriendSelector_header",
+            "class": "FBFriendSelector_header",
             html: "<p>Select your friends</p>"
         });
         
@@ -74,11 +74,11 @@ var TDFriendSelector = (function(module, $) {
         // Content
         
         $dialogContent = $('<div/>', {
-            "class": "TDFriendSelector_content"
+            "class": "FBFriendSelector_content"
         });
 		
 		$searchDiv = $('<div/>', {
-		  "class": "TDFriendSelector_searchContainer TDFriendSelector_clearfix"
+		  "class": "FBFriendSelector_searchContainer FBFriendSelector_clearfix"
 		});
 		
 		
@@ -86,12 +86,12 @@ var TDFriendSelector = (function(module, $) {
 		
 		$selectedStatsContainer = $( document.createElement('span') );
 		$selectedCount = $('<span/>', {
-            "class": "TDFriendSelector_selectedCount",
+            "class": "FBFriendSelector_selectedCount",
             text: 0
         });
 		
         $selectedCountMax = $('<span/>', {
-            "class": "TDFriendSelector_selectedCountMax",
+            "class": "FBFriendSelector_selectedCountMax",
             text: 0,
         });
         
@@ -109,16 +109,16 @@ var TDFriendSelector = (function(module, $) {
         );
         
         $filterRemoveLabel = $('<label/>', {
-            class: "TDFriendSelector_removeSearchFilter"
+            class: "FBFriendSelector_removeSearchFilter"
         });
 
-        $searchField = $('<input type="text" placeholder="Search friends" id="TDFriendSelector_searchField" />');
+        $searchField = $('<input type="text" placeholder="Search friends" id="FBFriendSelector_searchField" />');
         
         $searchFieldWrapper.append($filterRemoveLabel);
         $searchFieldWrapper.append($searchField);
         
         $searchDivTable = $('<table/>', {
-            "class": "TDFriendSelector_topTable"
+            "class": "FBFriendSelector_topTable"
         });
         
         $searchDivTableTr = $('<tr/>');
@@ -136,7 +136,7 @@ var TDFriendSelector = (function(module, $) {
         // -- Friends container
         
         $friendsContainerDiv = $('<div/>', {
-            "class": "TDFriendSelector_friendsContainer TDFriendSelector_clearfix"
+            "class": "FBFriendSelector_friendsContainer FBFriendSelector_clearfix"
         });
         
         $friendsContainer = $('<ul />');
@@ -150,18 +150,18 @@ var TDFriendSelector = (function(module, $) {
         
         // Footer
         $dialogFooter = $('<div/>', {
-            "class": "TDFriendSelector_footer TDFriendSelector_clearfix"
+            "class": "FBFriendSelector_footer FBFriendSelector_clearfix"
         }); 
         
         
 		
-/* 		$dialogFooter.append('<div class="TDFriendSelector_pageNumberContainer">'); */
+/* 		$dialogFooter.append('<div class="FBFriendSelector_pageNumberContainer">'); */
 /* 		$dialogFooter.append('Page <span id="">1</span> / <span id="">1</span>'); */
 
         $buttonOK = $('<a/>', {
             href: "#",
             text: "Done!",
-            id: "TDFriendSelector_buttonOK"
+            id: "FBFriendSelector_buttonOK"
         });
         
 
@@ -228,7 +228,7 @@ var TDFriendSelector = (function(module, $) {
 		bindEvents, unbindEvents, updateFriendsContainer, selectFriend;
 
 		if (!settings) {
-			log('Cannot create a new instance of TDFriendSelector because the plugin not initialised.');
+			log('Cannot create a new instance of FBFriendSelector because the plugin not initialised.');
 			return false;
 		}
 
@@ -257,7 +257,7 @@ var TDFriendSelector = (function(module, $) {
 		 */
 		showFriendSelector = function(callback) {
 			var i, len;
-			log('TDFriendSelector - newInstance - showFriendSelector');
+			log('FBFriendSelector - newInstance - showFriendSelector');
 			if (!$friends) {
 				return buildFriendSelector(batchImageSize, function() {
 					showFriendSelector(callback);
@@ -486,10 +486,10 @@ var TDFriendSelector = (function(module, $) {
 						$friend.addClass(settings.friendSelectedClass);
                         $checkbox.attr('checked', true);
 						$selectedCount.html(selectedFriendIds.length);
-						log('TDFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
+						log('FBFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
 						if (typeof instanceSettings.callbackFriendSelected === "function") { instanceSettings.callbackFriendSelected(friendId); }
 					} else {
-						log('TDFriendSelector - newInstance - selectFriend - ID already stored');
+						log('FBFriendSelector - newInstance - selectFriend - ID already stored');
 					}
 				}
 
@@ -571,12 +571,12 @@ var TDFriendSelector = (function(module, $) {
 						// Call the callback
 						if (typeof callback === 'function') { callback(); }
 					} else {
-						log('TDFriendSelector - buildFriendSelector - No friends returned');
+						log('FBFriendSelector - buildFriendSelector - No friends returned');
 						return false;
 					}
 				});
 			} else {
-				log('TDFriendSelector - buildFriendSelector - User is not logged in to Facebook');
+				log('FBFriendSelector - buildFriendSelector - User is not logged in to Facebook');
 				return false;
 			}
 		});
@@ -595,11 +595,11 @@ var TDFriendSelector = (function(module, $) {
 		// Return the markup for a single friend
 		buildFriendMarkup = function(friend, loadImage) {
 /*
-			return '<a href="#" class="TDFriendSelector_friend TDFriendSelector_clearfix" data-id="' + friend.id + '">' +
-					'<img src="//graph.facebook.com/' + friend.id + '/picture?type=square" width="50" height="50" alt="' + friend.name + '" class="TDFriendSelector_friendAvatar" />' +
-					'<div class="TDFriendSelector_friendName">' + 
+			return '<a href="#" class="FBFriendSelector_friend FBFriendSelector_clearfix" data-id="' + friend.id + '">' +
+					'<img src="//graph.facebook.com/' + friend.id + '/picture?type=square" width="50" height="50" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" />' +
+					'<div class="FBFriendSelector_friendName">' + 
 						'<span>' + friend.name + '</span>' +
-						'<span class="TDFriendSelector_friendSelect">' + settings.textSelect + '</span>' +
+						'<span class="FBFriendSelector_friendSelect">' + settings.textSelect + '</span>' +
 					'</div>' +
 				'</a>';
 				
@@ -613,14 +613,14 @@ var TDFriendSelector = (function(module, $) {
                 classText = '';
             }
             
-            return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="TDFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
+            return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
             
 		};
 	};
 	
 	loadFriendImages = function(start, end) {
 	
-        $(".TDFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
+        $(".FBFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
         
             if (!$(this).hasClass("img_loaded")) {
             
@@ -654,5 +654,5 @@ var TDFriendSelector = (function(module, $) {
 	};
 	return module;
 
-}(TDFriendSelector || {}, jQuery));
+}(FBFriendSelector || {}, jQuery));
 

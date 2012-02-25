@@ -6,10 +6,10 @@
 		<title>Facebook Friend Selector</title>
 
 		<link rel="stylesheet" href="css/std.css" />				
-		<link rel="stylesheet" href="css/tdfriendselector.css" />
+		<link rel="stylesheet" href="css/FBFriendSelector.css" />
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-		<script src="js/tdfriendselector.js"></script>	
+		<script src="js/FBFriendSelector.js"></script>	
 		
 		<style>
 			body { font-family: sans-serif; color: #333; }
@@ -80,7 +80,7 @@
 		// When a friend is selected, log their name and ID
 		callbackFriendSelected = function(friendId) {
 			var friend, name;
-			friend = TDFriendSelector.getFriendById(friendId);
+			friend = FBFriendSelector.getFriendById(friendId);
 			name = friend.name;
 			logActivity('Selected ' + name + ' (ID: ' + friendId + ')');
 		};
@@ -88,7 +88,7 @@
 		// When a friend is deselected, log their name and ID
 		callbackFriendUnselected = function(friendId) {
 			var friend, name;
-			friend = TDFriendSelector.getFriendById(friendId);
+			friend = FBFriendSelector.getFriendById(friendId);
 			name = friend.name;
 			logActivity('Unselected ' + name + ' (ID: ' + friendId + ')');
 		};
@@ -105,16 +105,16 @@
 		
 
 		// Initialise the Friend Selector with options that will apply to all instances
-		TDFriendSelector.init({debug: true});
+		FBFriendSelector.init({debug: true});
 
 		// Create some Friend Selector instances
-		selector1 = TDFriendSelector.newInstance({
+		selector1 = FBFriendSelector.newInstance({
 			callbackFriendSelected   : callbackFriendSelected,
 			callbackFriendUnselected : callbackFriendUnselected,
 			callbackMaxSelection     : callbackMaxSelection,
 			callbackSubmit           : callbackSubmit,
 		});
-		selector2 = TDFriendSelector.newInstance({
+		selector2 = FBFriendSelector.newInstance({
 			callbackFriendSelected   : callbackFriendSelected,
 			callbackFriendUnselected : callbackFriendUnselected,
 			callbackMaxSelection     : callbackMaxSelection,
@@ -180,7 +180,7 @@
         </ul>
         
         <!-- Container div for the friend selector -->
-        <div id="TDFriendSelector"></div>	
+        <div id="FBFriendSelector"></div>	
         
         <!-- Show the user is signed in -->
         <div id="fb-user">
