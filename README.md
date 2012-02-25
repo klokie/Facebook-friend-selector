@@ -20,15 +20,15 @@ Just edit `example.js` and set your Facebook `appId`.
 
 ### Include required CSS
 
-- Include the `FBFriendSelector.css` stylesheet in your document.
-- Ensure `FBFriendSelector.png` is located in the same directory as `FBFriendSelector.css`
+- Include the `fbfriendselector.css` stylesheet in your document.
+- Ensure `FBFriendSelector.png` is located in the same directory as `fbfriendselector.css`
 - We wrote the stylesheet with Sass and have included the SCSS source.
 
 ### Include required JavaScript
 
 - Include jQuery in your document. We are considering making this plugin library independent, but currently jQuery is required.
 - Include the Facebook [JavaScript SDK](http://developers.facebook.com/docs/reference/javascript/). (Technically, this step is optional. We have provided a `setFriends` function if you have loaded the friends on the serverside and want to avoid the JavaScript SDK.)
-- Include `FBFriendSelector.js`.
+- Include `fbfriendselector.js`.
 - Optional: We are using an HTML5 placeholder attribute on the search field. If you want the placeholder to work in older browsers, include a [placeholder polyfill](https://github.com/mathiasbynens/Placeholder-jQuery-Plugin).
 - Note: we haven't minified the script for you but you might like to [minify it](http://refresh-sf.com/yui/) and concatenate it into a single file with your other plugins.
 
