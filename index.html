@@ -51,7 +51,7 @@
         	 		FB.api('/me', function (res) {
          				var img_url = 'https://graph.facebook.com/' + res.id + '/picture';
          				$('#fb-user img').attr('src', img_url);
-         				$('#fb-user p').text(res.name);
+         				$('#fb-user div').text("Your name is: " + res.name);
         			});
         			
         		} else {
@@ -160,13 +160,17 @@
         
         <p>The interface permits friend selection instances with a set maximum of friends to select, or no limit of friends that cab be selected.</p>
         
-        <div id="fb-login" class="fb-login-button" data-show-faces="false" data-width="500"></div>
+        <br />
         
-        <div><a href="#" id="fb-logout">Logout</a></div>
+        <p>Find the source for this plugin here (github): <a href="https://github.com/Mrman/Facebook-friend-selector">Facebook-friend-selector</a></p>
         
+        <div id="fb-login" class="fb-login-button" style="margin-top: 15px;" data-show-faces="false" data-width="500"></div>
+              
         <br />
         
         <h2>Examples</h2>
+        
+        <p>Login above and approve the example app then click the below links (the app is blank and doesn't use your data).</p>
     
         <ul>
             <li><a href="#" id="nomax">No max friend selector</a></li>
@@ -178,15 +182,17 @@
         
         <!-- Show the user is signed in -->
         <div id="fb-user">
-            <h3>Logged in!</h3>
+            <h3>FB Status: Logged in!</h3>
             <img src="" />
-            <p></p>
+            <div></div>
         </div>
+        
+        <br />
         
         <div id="results">
 			<p>ACTIVITY LOG</p>
 		</div>
-    
+		  
     </body>
 	
 </html>
