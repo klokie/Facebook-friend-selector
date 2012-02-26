@@ -12,6 +12,10 @@ You can view the example at [FBFriendSelector](http://fbfs.craig-saunders.co.uk/
 
 If you clone the repository or download the tag then just replace the Facebook appID in index.html and everything should work.
 
+The image below has been blurred for the sake of my friends privacy
+
+![This is what it looks like.](http://fbfs.craig-saunders.co.uk/images/example.png)
+
 ## Using the plugin
 
 ### Include required HTML
