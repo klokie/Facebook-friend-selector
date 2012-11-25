@@ -14,7 +14,7 @@ If you clone the repository or download the tag then just replace the Facebook a
 
 The image below has been blurred for the sake of my friends privacy
 
-![This is what it looks like.](http://fbfs.craig-saunders.co.uk/images/example.png)
+![This is what it looks like.](https://raw.github.com/Mrman/Facebook-friend-selector/master/images/example.png)
 
 ## Using the plugin
 
