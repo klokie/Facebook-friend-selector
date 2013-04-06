@@ -453,6 +453,7 @@ var FBFriendSelector = (function(module, $) {
 			$friendsContainer.html($friends.not("." + settings.friendFilteredClass));
 			$("li a", $friendsContainer).bind('click', function(e) {
 				e.stopPropagation();
+				e.preventDefault();
 				selectFriend($(this));
 			});
 			
