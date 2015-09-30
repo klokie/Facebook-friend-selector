@@ -4,7 +4,7 @@
 /*!
  * Originated from These Days Friend Selector
  * Adapted by Craig Saunders
- * @authors: Bram Verdyck, Keegan Street, Craig Saunders
+ * @authors: Bram Verdyck, Keegan Street, Craig Saunders, Daniel "Klokie" Grossfeld
  */
 var FBFriendSelector = (function(module, $) {
 
@@ -47,7 +47,8 @@ var FBFriendSelector = (function(module, $) {
 			pagePrevSelector         : '#FBFriendSelector_pagePrev',
 			pageNextSelector         : '#FBFriendSelector_pageNext',
 			buttonCloseSelector      : '#FBFriendSelector_buttonClose',
-			buttonOKSelector         : '#FBFriendSelector_buttonOK'
+			buttonOKSelector         : '#FBFriendSelector_buttonOK',
+      friends_endpoint         : '/me/friends?fields=id,name'
 		};
 
 		// Override defaults with arguments
@@ -55,7 +56,6 @@ var FBFriendSelector = (function(module, $) {
 
 		// Select DOM elements
 		$container        = $(settings.containerSelector);
-
 		
 		$dialogDiv = $( document.createElement('div') );
         $formDiv = $( document.createElement('div') );
@@ -565,7 +565,7 @@ var FBFriendSelector = (function(module, $) {
 		
 			if (response.status === 'connected') {
 				// Load Facebook friends
-				FB.api('/me/friends?fields=id,name', function(response) {
+				FB.api(settings.friends_endpoint, function(response) {
 					if (response.data) {
 						setFriends(response.data);
 						// Build the markup
