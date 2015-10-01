@@ -589,8 +589,11 @@ var FBFriendSelector = (function(module, $) {
 		buildMarkup = function() {
 			var i, len, html = '', loadImage = true;
 			for (i = 0, len = friends.length; i < len; i += 1) {
-                
-                (i > batchImageSize) ? loadImage = false : loadImage = true;
+        if (i > batchImageSize) {
+          loadImage = false;
+        } {
+          loadImage = true;
+        }
 				html += buildFriendMarkup(friends[i], loadImage);
 			}
 			$friends = $(html);
@@ -598,40 +601,59 @@ var FBFriendSelector = (function(module, $) {
 
 		// Return the markup for a single friend
 		buildFriendMarkup = function(friend, loadImage) {
-      var imgSrc = '', classText = '';
+      var imgSrc = '', imgData = '', classText = '', html = '';
+
       if (loadImage == true) {
-        imgSrc = formatFriendImage( friend.id );
+        imgSrc = formatFriendImage( friend );
         classText = ' class="img_loaded"';
       } else {
         imgSrc = '/images/no-face.png';
+        imgData = 'data-imgsrc="' + formatFriendImage( friend ) + '"';
       }
-    
-      return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
+
+      html = '<li__LI_ATTR__>'
+      + '<a href="#" class="clearfix" id="friend__FRIEND_ID__">'
+      + '<div>'
+      + '<img src="__IMG_SRC__" __IMG_DATA__ width="30" height="30" alt="__FRIEND_NAME__" class="FBFriendSelector_friendAvatar" />'
+      + '<input type="checkbox" name="friends[__FRIEND_ID__]" value="__FRIEND_ID__" />'
+      + '<div>__FRIEND_NAME__</div>'
+      + '</div>'
+      + '</a>'
+      + '</li>';
+
+      return html
+      .replace(/__FRIEND_ID__/g, friend.id)
+      .replace(/__FRIEND_NAME__/g, friend.name)
+      .replace(/__IMG_SRC__/g, imgSrc)
+      .replace(/__IMG_DATA__/g, imgData)
+      .replace(/__LI_ATTR__/g, classText)
+      ;
 		};
 	};
 	
 	loadFriendImages = function(start, end) {
-	
-        $(".FBFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
-          var url = '';
-          
-            if (!$(this).hasClass("img_loaded")) {
-            
-                $user_div = $("a div", this);
-                url = formatFriendImage( $("input", $user_div).val() );
-                $("img", $user_div).attr("src", url);
-                $(this).addClass("img_loaded");            
-            }
-            
-        });
-	
+    $(".FBFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
+      var $this = $(this), $img = {};
+      
+      if (!$this.hasClass('img_loaded')) {
+        // use 'data-imgsrc' property as image source
+        $img = $('img', $this);
+        $img.attr('src', $img.attr('data-imgsrc'));
+      }
+    });
 	};
   
   /**
-  * fake-format friend thumbnail URL to avoid hundreds of asynchronous calls to API
+  * format friend thumbnail URL to avoid hundreds of asynchronous calls to API
+  *
+  * @param callback optional
   */
-  formatFriendImage = function(uid) {
-    return '//graph.facebook.com/' + FB_API_VERSION + '/' + uid + '/picture?type=square';
+  formatFriendImage = function(friend, callback) {
+    if (friend.picture) {
+      return friend.picture.data.url;
+    }
+
+    FB.api( '/' + friend.id + '/picture', callback );
   };
 
 	sortFriends = function(friend1, friend2) {
