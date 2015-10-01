@@ -11,6 +11,8 @@ var FBFriendSelector = (function(module, $) {
 	// Public functions
 	var init, setFriends, getFriends, getFriendById, newInstance,
 
+  FB_API_VERSION = 'v2.4',
+
 	// Private variables
 	settings, friends,
 	$friends, $container, $friendsContainer, $searchField, $selectedCount, $selectedCountMax, $currentPageNumSpan, $totalPagesSpan, $previousPage, $nextPage, $buttonClose, $buttonOK,
@@ -566,7 +568,7 @@ var FBFriendSelector = (function(module, $) {
 			if (response.status === 'connected') {
 				// Load Facebook friends
 				FB.api(settings.friends_endpoint, function(response) {
-					if (response.data) {
+					if (response.data && response.data.length) {
 						setFriends(response.data);
 						// Build the markup
 						buildMarkup();
@@ -596,44 +598,41 @@ var FBFriendSelector = (function(module, $) {
 
 		// Return the markup for a single friend
 		buildFriendMarkup = function(friend, loadImage) {
-/*
-			return '<a href="#" class="FBFriendSelector_friend FBFriendSelector_clearfix" data-id="' + friend.id + '">' +
-					'<img src="//graph.facebook.com/' + friend.id + '/picture?type=square" width="50" height="50" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" />' +
-					'<div class="FBFriendSelector_friendName">' + 
-						'<span>' + friend.name + '</span>' +
-						'<span class="FBFriendSelector_friendSelect">' + settings.textSelect + '</span>' +
-					'</div>' +
-				'</a>';
-				
-*/
-            
-            if (loadImage == true) {
-                imgSrc = '//graph.facebook.com/' + friend.id + '/picture?type=square';
-                classText = ' class="img_loaded"';
-            } else {
-                imgSrc = '/images/no-face.png';
-                classText = '';
-            }
-            
-            return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
-            
+      var imgSrc = '', classText = '';
+      if (loadImage == true) {
+        imgSrc = formatFriendImage( friend.id );
+        classText = ' class="img_loaded"';
+      } else {
+        imgSrc = '/images/no-face.png';
+      }
+    
+      return '<li ' + classText + '><a href="#" class="clearfix" id="friend' + friend.id + '"><div><img src="' + imgSrc + '" width="30" height="30" alt="' + friend.name + '" class="FBFriendSelector_friendAvatar" /><input type="checkbox" name="friends[' + friend.id + ']" value="' + friend.id + '" /><div>' + friend.name + '</div></div></a></li>';
 		};
 	};
 	
 	loadFriendImages = function(start, end) {
 	
         $(".FBFriendSelector_friendsContainer ul li").slice(start, end).each(function(index) {
-        
+          var url = '';
+          
             if (!$(this).hasClass("img_loaded")) {
             
                 $user_div = $("a div", this);
-                $("img", $user_div).attr("src", '//graph.facebook.com/' + $("input", $user_div).val() + '/picture?type=square');
+                url = formatFriendImage( $("input", $user_div).val() );
+                $("img", $user_div).attr("src", url);
                 $(this).addClass("img_loaded");            
             }
             
         });
 	
-	}
+	};
+  
+  /**
+  * fake-format friend thumbnail URL to avoid hundreds of asynchronous calls to API
+  */
+  formatFriendImage = function(uid) {
+    return '//graph.facebook.com/' + FB_API_VERSION + '/' + uid + '/picture?type=square';
+  };
 
 	sortFriends = function(friend1, friend2) {
 		if (friend1.upperCaseName === friend2.upperCaseName) { return 0; }
