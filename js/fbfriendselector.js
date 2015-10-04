@@ -481,6 +481,11 @@ var FBFriendSelector = (function(module, $) {
       }
 
       if (!$friend.hasClass(settings.friendSelectedClass)) {
+        // workaround for DOM checkbox bug
+        $checkbox.each(function(){
+          this.checked = true;
+        });
+        
         // If autoDeselection is enabled and they have already selected the max number of friends, deselect the first friend
         if (instanceSettings.autoDeselection && selectedFriendIds.length === instanceSettings.maxSelection) {
 
@@ -496,7 +501,6 @@ var FBFriendSelector = (function(module, $) {
           if ($.inArray(friendId, selectedFriendIds) === -1) {
             selectedFriendIds.push(friendId);
             $friend.addClass(settings.friendSelectedClass);
-            $checkbox.attr('checked', true);
             $selectedCount.html(selectedFriendIds.length);
             log('FBFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
             if (typeof instanceSettings.callbackFriendSelected === "function") {
@@ -513,7 +517,7 @@ var FBFriendSelector = (function(module, $) {
           if (selectedFriendIds[i] === friendId) {
             selectedFriendIds.splice(i, 1);
             $friend.removeClass(settings.friendSelectedClass);
-            $checkbox.removeAttr('checked');
+            $checkbox.attr('checked', false);
             $selectedCount.html(selectedFriendIds.length);
             if (typeof instanceSettings.callbackFriendUnselected === "function") {
               instanceSettings.callbackFriendUnselected(friendId);
