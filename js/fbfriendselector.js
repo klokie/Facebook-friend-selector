@@ -50,7 +50,12 @@ var FBFriendSelector = (function(module, $) {
       pageNextSelector: '#FBFriendSelector_pageNext',
       buttonCloseSelector: '#FBFriendSelector_buttonClose',
       buttonOKSelector: '#FBFriendSelector_buttonOK',
-      friends_endpoint: '/me/friends?fields=id,name'
+      friends_endpoint: '/me/friends?fields=id,name',
+      // string translations
+      html_dialogHeader: '<p>Select your friends</p>'
+      html_buttonOK: 'Done!'
+      html_selectedStats_suffix: ' friends selected',
+      html_search_default: 'Search friends'
     };
 
     // Override defaults with arguments
@@ -66,7 +71,7 @@ var FBFriendSelector = (function(module, $) {
 
     $dialogHeader = $('<div/>', {
       "class": "FBFriendSelector_header",
-      html: "<p>Select your friends</p>"
+      html: settings.html_dialogHeader
     });
 
     $buttonClose = $('<a/>', {
@@ -106,7 +111,7 @@ var FBFriendSelector = (function(module, $) {
 
     $selectedStatsContainer.append($selectedCount);
     $selectedStatsContainer.append($maxSelectionSpan);
-    $selectedStatsContainer.append(' friends selected');
+    $selectedStatsContainer.append(settings.html_selectedStats_suffix);
 
     $searchFieldWrapper = $('<div/>', {});
 
@@ -114,7 +119,7 @@ var FBFriendSelector = (function(module, $) {
       class: "FBFriendSelector_removeSearchFilter"
     });
 
-    $searchField = $('<input type="text" placeholder="Search friends" id="FBFriendSelector_searchField" />');
+    $searchField = $('<input type="text" placeholder="' + settings.html_search_default + '" id="FBFriendSelector_searchField" />');
 
     $searchFieldWrapper.append($filterRemoveLabel);
     $searchFieldWrapper.append($searchField);
@@ -162,7 +167,7 @@ var FBFriendSelector = (function(module, $) {
 
     $buttonOK = $('<a/>', {
       href: "#",
-      text: "Done!",
+      text: settings.html_buttonOK,
       id: "FBFriendSelector_buttonOK"
     });
 
@@ -273,7 +278,7 @@ var FBFriendSelector = (function(module, $) {
         bindEvents();
         // Update classnames to represent the selections for this instance
         $("a", $friends).removeClass(settings.friendSelectedClass + ' ' + settings.friendDisabledClass + ' ' + settings.friendFilteredClass);
-        $("a div input", $friends).removeAttr('checked');
+        $("a div input", $friends).attr('checked', false);
         for (i = 0, len = friends.length; i < len; i += 1) {
           if ($.inArray(friends[i].id, selectedFriendIds) !== -1) {
             $("#friend" + friends[i].id).addClass(settings.friendSelectedClass);
@@ -481,36 +486,34 @@ var FBFriendSelector = (function(module, $) {
       }
 
       if (!$friend.hasClass(settings.friendSelectedClass)) {
+
         // workaround for DOM checkbox bug
         $checkbox.each(function(){
           this.checked = true;
         });
         
-        // If autoDeselection is enabled and they have already selected the max number of friends, deselect the first friend
-        if (instanceSettings.autoDeselection && selectedFriendIds.length === instanceSettings.maxSelection) {
-
-          removedId = selectedFriendIds.splice(0, 1);
-          $deselectedFriend = $getFriendById(removedId);
-          $deselectedFriend.removeClass(settings.friendSelectedClass);
-          $("div input", $deselectedFriend).removeAttr('checked');
-          $selectedCount.html(selectedFriendIds.length);
-        }
-
-        if (!instanceSettings.maxSelection || selectedFriendIds.length < instanceSettings.maxSelection) {
-          // Add friend to selectedFriendIds
-          if ($.inArray(friendId, selectedFriendIds) === -1) {
-            selectedFriendIds.push(friendId);
-            $friend.addClass(settings.friendSelectedClass);
+        // Add friend to selectedFriendIds if not already there
+        if ($.inArray(friendId, selectedFriendIds) === -1) {
+          // If autoDeselection is enabled and they have already selected the max number of friends, deselect the first friend
+          if (instanceSettings.autoDeselection && selectedFriendIds.length === instanceSettings.maxSelection) {
+            removedId = selectedFriendIds.splice(0, 1);
+            $deselectedFriend = $getFriendById(removedId);
+            $deselectedFriend.removeClass(settings.friendSelectedClass).find("div input").attr('checked', false);
             $selectedCount.html(selectedFriendIds.length);
-            log('FBFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
-            if (typeof instanceSettings.callbackFriendSelected === "function") {
-              instanceSettings.callbackFriendSelected(friendId);
-            }
-          } else {
-            log('FBFriendSelector - newInstance - selectFriend - ID already stored');
           }
-        }
 
+          if (!instanceSettings.maxSelection || selectedFriendIds.length < instanceSettings.maxSelection) {
+              selectedFriendIds.push(friendId);
+              $friend.addClass(settings.friendSelectedClass);
+              $selectedCount.html(selectedFriendIds.length);
+              log('FBFriendSelector - newInstance - selectFriend - selected IDs: ', selectedFriendIds);
+              if (typeof instanceSettings.callbackFriendSelected === "function") {
+                instanceSettings.callbackFriendSelected(friendId);
+              }
+          }
+        } else {
+          log('FBFriendSelector - newInstance - selectFriend - ID already stored');
+        }
       } else {
         // Remove friend from selectedFriendIds
         for (i = 0, len = selectedFriendIds.length; i < len; i += 1) {
@@ -556,7 +559,7 @@ var FBFriendSelector = (function(module, $) {
     var i, len;
     id = id.toString();
 
-    /* 		console.log(friends); */
+    /* 		log(friends); */
 
     for (i = 0, len = friends.length; i < len; i += 1) {
       if (friends[i].id === id) {
