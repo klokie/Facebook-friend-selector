@@ -52,8 +52,8 @@ var FBFriendSelector = (function(module, $) {
       buttonOKSelector: '#FBFriendSelector_buttonOK',
       friends_endpoint: '/me/friends?fields=id,name',
       // string translations
-      html_dialogHeader: '<p>Select your friends</p>'
-      html_buttonOK: 'Done!'
+      html_dialogHeader: '<p>Select your friends</p>',
+      html_buttonOK: 'Done!',
       html_selectedStats_suffix: ' friends selected',
       html_search_default: 'Search friends'
     };
