@@ -277,8 +277,6 @@ var FBFriendSelector = (function(module, $) {
       } else {
         bindEvents();
         // Update classnames to represent the selections for this instance
-        $("a", $friends).removeClass(settings.friendSelectedClass + ' ' + settings.friendDisabledClass + ' ' + settings.friendFilteredClass);
-        $("a div input", $friends).attr('checked', false);
         for (i = 0, len = friends.length; i < len; i += 1) {
           if ($.inArray(friends[i].id, selectedFriendIds) !== -1) {
             $("#friend" + friends[i].id).addClass(settings.friendSelectedClass);
